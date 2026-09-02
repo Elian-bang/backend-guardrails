@@ -21,10 +21,10 @@ jobs:
           cache: maven
 
       - name: 규칙이 위반을 실제로 잡는가
-        run: mvn -B -pl guardrails,sample/monolith test -Dtest=RuleSelfTest -DfailIfNoTests=false
+        run: mvn -B -pl guardrails,sample/monolith test -Dtest=RuleSelfTest -Dsurefire.failIfNoSpecifiedTests=false
 
       - name: 규칙별 탐지율·오탐률
-        run: mvn -B -pl guardrails,sample/monolith test -Dtest=FixtureMatrixTest -DfailIfNoTests=false
+        run: mvn -B -pl guardrails,sample/monolith test -Dtest=FixtureMatrixTest -Dsurefire.failIfNoSpecifiedTests=false
 
   # ── 워커 ② 고정된 규칙으로 앱을 검사한다 ────────────────────────────
   # 이 워커는 규칙을 고칠 수 없다. 의존성으로 가져다 쓸 뿐이다.
