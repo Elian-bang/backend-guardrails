@@ -1,0 +1,75 @@
+name: guardrails
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ── 워커 ① 규칙이 살아 있는지 검사한다 ───────────────────────────────
+  # ArchUnit 규칙은 통과만 하면 죽어 있어도 모른다. 조건을 빈 값으로 바꿔놔도
+  # 앱 검사는 초록불이다. 그래서 규칙을 위반 fixture 에 걸어 반드시 실패하는지 먼저 본다.
+  rules-selftest:
+    name: 규칙 자체 검사
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - name: 규칙이 위반을 실제로 잡는가
+        run: mvn -B -pl guardrails,sample/monolith test -Dtest=RuleSelfTest -DfailIfNoTests=false
+
+      - name: 규칙별 탐지율·오탐률
+        run: mvn -B -pl guardrails,sample/monolith test -Dtest=FixtureMatrixTest -DfailIfNoTests=false
+
+  # ── 워커 ② 고정된 규칙으로 앱을 검사한다 ────────────────────────────
+  # 이 워커는 규칙을 고칠 수 없다. 의존성으로 가져다 쓸 뿐이다.
+  app-check:
+    name: 앱 검사
+    needs: rules-selftest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [sample/monolith]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: maven
+
+      - name: ${{ matrix.app }} 가 규칙을 지키는가
+        run: mvn -B -pl guardrails,${{ matrix.app }} test
+
+  # ── 규칙 변경 감시 ────────────────────────────────────────────────
+  # 위반에 걸린 사람이 규칙을 고쳐서 통과시키는 것을 막는다.
+  # 규칙과 앱을 한 PR 에서 같이 고치면 사람이 봐야 한다.
+  rules-change-guard:
+    name: 규칙 변경 감시
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 규칙과 앱을 같은 PR 에서 고쳤는가
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          git fetch origin "${{ github.base_ref }}" --depth=1 || true
+          CHANGED=$(git diff --name-only "$BASE"...HEAD || git diff --name-only HEAD~1)
+          echo "$CHANGED"
+          RULES=$(echo "$CHANGED" | grep -c '^guardrails/' || true)
+          APPS=$(echo "$CHANGED" | grep -c '^sample/' || true)
+          if [ "$RULES" -gt 0 ] && [ "$APPS" -gt 0 ]; then
+            echo "::error::규칙(guardrails/)과 앱(sample/)을 한 PR 에서 함께 수정했다."
+            echo "::error::규칙에 걸려서 규칙을 고치는 것과, 규칙을 개선하는 것은 다르다. PR 을 나눠라."
+            exit 1
+          fi
+          echo "규칙 변경 $RULES건 / 앱 변경 $APPS건 — 분리돼 있다"

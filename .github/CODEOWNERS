@@ -1,0 +1,4 @@
+# 규칙 변경은 별도 승인 경로를 거친다.
+# 앱 코드와 같은 사람이 같은 PR 에서 고칠 수 없게 만드는 것이 목적이다.
+/guardrails/            @Elian-bang
+/.github/workflows/     @Elian-bang
