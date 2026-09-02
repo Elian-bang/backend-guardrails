@@ -76,4 +76,4 @@
 재현 실험에서 완료 표시를 건별 커밋으로 바꾸자
 조회 실패 3건 → **0건**, 조회 처리량 882 → **2,377건**(2.7배).
 
-> 기록: [커밋을 안 한 트랜잭션이 페이지를 죽인 이야기](../notification-reliability-lab/docs/gitbook/커밋을-안-한-트랜잭션이-페이지를-죽인-이야기.md)
+> 기록: [커밋을 안 한 트랜잭션이 페이지를 죽인 이야기](https://github.com/Elian-bang/notification-reliability-lab/blob/main/docs/gitbook/%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%95%88-%ED%95%9C-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98%EC%9D%B4-%ED%8E%98%EC%9D%B4%EC%A7%80%EB%A5%BC-%EC%A3%BD%EC%9D%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0.md)
