@@ -1,7 +1,7 @@
-package dev.elian.mono.boundary.controller;
+package dev.elian.fixtures.boundary.controller;
 
 import dev.elian.guard.rules.Fixture;
-import dev.elian.mono.boundary.service.OkFacade;
+import dev.elian.fixtures.boundary.service.OkFacade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

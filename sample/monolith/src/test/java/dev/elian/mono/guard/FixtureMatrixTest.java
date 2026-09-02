@@ -117,8 +117,8 @@ class FixtureMatrixTest {
     }
 
     private Row layerRow(List<Class<?>> bad, List<Class<?>> good) {
-        boolean caught = failsOnPackage(LayerRules.R6_계층("dev.elian.mono.violations"), "dev.elian.mono.violations");
-        boolean fp = failsOnPackage(LayerRules.R6_계층("dev.elian.mono.boundary"), "dev.elian.mono.boundary");
+        boolean caught = failsOnPackage(LayerRules.R6_계층("dev.elian.fixtures.violations"), "dev.elian.fixtures.violations");
+        boolean fp = failsOnPackage(LayerRules.R6_계층("dev.elian.fixtures.boundary"), "dev.elian.fixtures.boundary");
         int badCount = (int) bad.stream().filter(c -> tagOf(c).rule().equals("R6")).count();
         int goodCount = (int) good.stream().filter(c -> tagOf(c).rule().equals("R6")).count();
         return new Row("R6", badCount, caught ? badCount : 0, goodCount, fp ? goodCount : 0, 0, 0);
@@ -147,7 +147,7 @@ class FixtureMatrixTest {
     /** 테스트 클래스패스에서 {@code @Fixture} 가 붙은 클래스를 모은다. */
     private static List<Class<?>> fixturesOf(Fixture.Expect expect) throws IOException, URISyntaxException {
         List<Class<?>> out = new ArrayList<>();
-        for (String pkg : List.of("dev/elian/mono/violations", "dev/elian/mono/boundary", "dev/elian/mono/gaps")) {
+        for (String pkg : List.of("dev/elian/fixtures/violations", "dev/elian/fixtures/boundary", "dev/elian/fixtures/gaps")) {
             Path root = Path.of(FixtureMatrixTest.class.getResource("/").toURI()).resolve(pkg);
             if (!Files.exists(root)) continue;
             try (Stream<Path> paths = Files.walk(root)) {

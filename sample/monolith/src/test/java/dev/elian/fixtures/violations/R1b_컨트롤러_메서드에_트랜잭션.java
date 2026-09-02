@@ -1,4 +1,4 @@
-package dev.elian.mono.violations;
+package dev.elian.fixtures.violations;
 
 import dev.elian.guard.rules.Fixture;
 import org.springframework.transaction.annotation.Transactional;

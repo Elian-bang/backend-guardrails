@@ -1,4 +1,4 @@
-package dev.elian.mono.gaps;
+package dev.elian.fixtures.gaps;
 
 import dev.elian.guard.rules.Fixture;
 import org.springframework.stereotype.Service;

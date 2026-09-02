@@ -26,7 +26,7 @@ class RuleSelfTest {
 
     /** 위반 fixture 만 읽는다. */
     private static final JavaClasses VIOLATIONS =
-            new ClassFileImporter().importPackages("dev.elian.mono.violations");
+            new ClassFileImporter().importPackages("dev.elian.fixtures.violations");
 
     private void 반드시_잡아야_한다(ArchRule rule, String 무엇을) {
         assertThatThrownBy(() -> rule.check(VIOLATIONS))
@@ -61,7 +61,7 @@ class RuleSelfTest {
     @Test
     @DisplayName("R6 — Controller 가 Repository 를 직접 부르는 것을 잡는다")
     void R6() {
-        반드시_잡아야_한다(LayerRules.R6_계층("dev.elian.mono.violations"), "계층 위반");
+        반드시_잡아야_한다(LayerRules.R6_계층("dev.elian.fixtures.violations"), "계층 위반");
     }
 
     @Test

@@ -1,6 +1,6 @@
-package dev.elian.mono.violations.controller;
+package dev.elian.fixtures.violations.controller;
 
-import dev.elian.mono.violations.repository.BadRepository;
+import dev.elian.fixtures.violations.repository.BadRepository;
 import dev.elian.guard.rules.Fixture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

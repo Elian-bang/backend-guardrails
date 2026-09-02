@@ -1,7 +1,7 @@
-package dev.elian.mono.boundary.service;
+package dev.elian.fixtures.boundary.service;
 
 import dev.elian.guard.rules.Fixture;
-import dev.elian.mono.boundary.repository.OkRepository;
+import dev.elian.fixtures.boundary.repository.OkRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

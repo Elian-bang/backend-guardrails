@@ -1,4 +1,4 @@
-package dev.elian.mono.boundary.service;
+package dev.elian.fixtures.boundary.service;
 
 import dev.elian.guard.rules.Fixture;
 import org.springframework.stereotype.Service;

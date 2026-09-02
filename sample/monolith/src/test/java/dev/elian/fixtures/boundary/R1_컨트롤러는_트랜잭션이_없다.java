@@ -1,4 +1,4 @@
-package dev.elian.mono.boundary;
+package dev.elian.fixtures.boundary;
 
 import dev.elian.guard.rules.Fixture;
 import org.springframework.web.bind.annotation.GetMapping;
