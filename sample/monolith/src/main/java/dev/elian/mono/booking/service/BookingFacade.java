@@ -25,13 +25,8 @@ public class BookingFacade {
         this.notificationSender = notificationSender;
     }
 
-    // 데모용 고의 위반 — 예약과 알림을 한 트랜잭션에 넣었다.
-    // 좌석 락을 쥔 채 채널 응답을 기다리고(R3), 예약이 롤백돼도 알림은 이미 나간다(R10).
-    @org.springframework.transaction.annotation.Transactional
     public Booking book(Long showId, String seatNo, String customerId) {
-        Booking booking = bookingService.reserve(showId, seatNo, customerId);
-        new org.springframework.web.client.RestTemplate()
-                .getForObject("https://channel.example/send", String.class);
+        Booking booking = bookingService.reserve(showId, seatNo, customerId);   // 트랜잭션 — 여기서 커밋
         notificationSender.sendBookingConfirmed(
                 booking.getId(), customerId, "예약이 확정되었습니다. 좌석 " + seatNo);
         return booking;
